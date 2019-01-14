@@ -48,11 +48,11 @@ class RecipesList extends Component {
     } else {
       return (
         <React.Fragment>
+          <div>Total Recipes: {recipes.length}</div>
           <Button primary onClick={() => this.onAdd()}>
             <FontAwesomeIcon className="fa-fw" icon="plus-circle" />
             Add
           </Button>
-          Total: {recipes.length}
           <FlexContainer className="">
             {recipes.map(recipe => (
               <CardWrapper key={recipe.id}>

@@ -1,5 +1,12 @@
 import "jest-dom/extend-expect";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faTrashAlt,
+  faEye,
+  faPlusCircle
+} from "@fortawesome/free-solid-svg-icons";
 
+/* Mock Fetch */
 global.fetch = jest.fn(url => {
   // eslint-disable-next-line
   console.error("Attempt to perform a network request", url);
@@ -35,3 +42,6 @@ global.mockFetchPromise = (data, options = {}) => {
 
 global.mockFetchOnce = response =>
   global.fetch.mockImplementationOnce(() => global.mockFetchPromise(response));
+
+/* Mock FontAwesome */
+library.add(faTrashAlt, faEye, faPlusCircle);
