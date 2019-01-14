@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { debug } from "util";
 
 class RecipeDetail extends Component {
   constructor(props) {
@@ -13,13 +12,15 @@ class RecipeDetail extends Component {
     this.onNameChange = this.onNameChange.bind(this);
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
     this.onIngredientsChange = this.onIngredientsChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   async componentDidMount() {
     try {
-      const res = await fetch(`/recipes/${this.props.match.params.recipeId}`);
-      const recipe = await res.json();
+      const recipe = await fetch(
+        `/recipes/${this.props.match.params.recipeId}`
+      ).then(response => response.json());
+
       this.setState({
         isLoaded: true,
         recipe: recipe
@@ -35,7 +36,7 @@ class RecipeDetail extends Component {
   renderAfterFetch(recipe) {
     return (
       <React.Fragment>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.onSubmit}>
           <div>Recipe with ID: {recipe.id}</div>
           <label>
             Name:
@@ -95,9 +96,27 @@ class RecipeDetail extends Component {
     this.setState({ recipe });
   }
 
-  handleSubmit(event) {
-    console.log(this.state.recipe);
+  async onSubmit(event) {
     event.preventDefault();
+    console.log(this.state.recipe);
+
+    try {
+      const res = await fetch(`/recipes/${this.state.recipe.id}/`, {
+        method: "PUT",
+        body: JSON.stringify(this.state.recipe),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      });
+
+      console.log("finish update!");
+      console.log(res);
+    } catch (error) {
+      this.setState({
+        error
+      });
+    }
   }
 
   render() {
