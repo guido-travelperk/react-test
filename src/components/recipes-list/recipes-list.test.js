@@ -13,19 +13,19 @@ describe("<RecipesList />", () => {
       name: "Pizza",
       description: "Put in oven",
       ingredients: [{ name: "dough" }, { name: "cheese" }, { name: "tomato" }]
+    },
+    {
+      id: 55,
+      name: "Pizza",
+      description: "Put in oven",
+      ingredients: [{ name: "dough" }, { name: "cheese" }, { name: "tomato" }]
+    },
+    {
+      id: 56,
+      name: "Pizza",
+      description: "Put in oven",
+      ingredients: [{ name: "dough" }, { name: "cheese" }, { name: "tomato" }]
     }
-    // {
-    //   id: 55,
-    //   name: "Pizza",
-    //   description: "Put in oven",
-    //   ingredients: [{ name: "dough" }, { name: "cheese" }, { name: "tomato" }]
-    // },
-    // {
-    //   id: 56,
-    //   name: "Pizza",
-    //   description: "Put in oven",
-    //   ingredients: [{ name: "dough" }, { name: "cheese" }, { name: "tomato" }]
-    // }
   ];
 
   it("should render", async () => {
@@ -42,7 +42,7 @@ describe("<RecipesList />", () => {
     //debug();
     await wait(() => expect(getByText("Add")).toBeInTheDocument());
     // debug();
-    expect(getByText("Total Recipes: 1")).toBeInTheDocument();
+    expect(getByText("Total Recipes: 3")).toBeInTheDocument();
     //expect(getByText("Seen")).toBeInTheDocument();
     //expect(getByText("Great")).toBeInTheDocument();
     //expect(container.firstChild).toHaveStyle("border-top-left-radius: 0");
