@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-
-const Wrapper = styled.section`
-  padding: 4em;
-  background: papayawhip;
-`;
+import {
+  CardWrapper,
+  CardHeader,
+  CardBody,
+  CardText,
+  Button,
+  FlexContainer
+} from "../../Styles";
 
 class RecipesList extends Component {
   constructor(props) {
@@ -18,27 +20,23 @@ class RecipesList extends Component {
     };
 
     this.onDelete = this.onDelete.bind(this);
-    this.onSelected = this.onSelected.bind(this);
     this.onAdd = this.onAdd.bind(this);
   }
 
-  componentDidMount() {
-    fetch("/recipes/")
-      .then(res => res.json())
-      .then(
-        result => {
-          this.setState({
-            isLoaded: true,
-            recipes: result
-          });
-        },
-        error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
+  async componentDidMount() {
+    try {
+      const res = await fetch("/recipes/");
+      const recipes = await res.json();
+      this.setState({
+        isLoaded: true,
+        recipes: recipes
+      });
+    } catch (error) {
+      this.setState({
+        isLoaded: true,
+        error
+      });
+    }
   }
 
   render() {
@@ -49,45 +47,51 @@ class RecipesList extends Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <Wrapper>
-          Add{" "}
-          <FontAwesomeIcon
-            onClick={() => this.onAdd()}
-            icon="plus-circle"
-            color="green"
-          />
-          <ul>
+        <React.Fragment>
+          <Button primary onClick={() => this.onAdd()}>
+            <FontAwesomeIcon className="fa-fw" icon="plus-circle" />
+            Add
+          </Button>
+          Total: {recipes.length}
+          <FlexContainer className="">
             {recipes.map(recipe => (
-              <li key={recipe.id}>
-                ({recipe.id}) {recipe.name} - {recipe.description}{" "}
-                <Link to={`/recipes/${recipe.id}`}>
-                  <FontAwesomeIcon
-                    onClick={() => this.onSelected(recipe.id)}
-                    icon="eye"
-                    color="blue"
-                  />
-                </Link>
-                <FontAwesomeIcon
-                  onClick={() => this.onDelete(recipe.id)}
-                  icon="trash-alt"
-                  color="red"
-                />
-                {/* <ul>
-                {recipe.ingredients.map(ingredient => (
-                  <li key={ingredient.name}>{recipe.name}</li>
-                ))}
-              </ul> */}
-              </li>
+              <CardWrapper key={recipe.id}>
+                <CardHeader>
+                  {recipe.name} - {recipe.id}
+                </CardHeader>
+                <CardBody>
+                  <CardText>Desc: {recipe.description}</CardText>
+                  <CardText>
+                    Ingredients: {recipe.ingredients.map(ing => `${ing.name} `)}
+                  </CardText>
+
+                  <Link to={`/recipes/${recipe.id}`}>
+                    <Button>
+                      <FontAwesomeIcon className="fa-fw" icon="eye" />
+                      View
+                    </Button>
+                  </Link>
+
+                  <Button
+                    primary
+                    floatRight
+                    onClick={() => this.onDelete(recipe.id)}
+                  >
+                    <FontAwesomeIcon className="fa-fw" icon="trash-alt" />
+                    Delete
+                  </Button>
+                </CardBody>
+              </CardWrapper>
             ))}
-          </ul>
-        </Wrapper>
+          </FlexContainer>
+        </React.Fragment>
       );
     }
   }
 
   onAdd() {
     let recipe = {
-      name: "pizza",
+      name: "Pizza",
       description: "Put in oven",
       ingredients: [{ name: "dough" }, { name: "cheese" }, { name: "tomato" }]
     };
@@ -106,10 +110,6 @@ class RecipesList extends Component {
           recipes: [...prevState.recipes, res]
         }));
       });
-  }
-
-  onSelected(recipeId) {
-    console.log(`Selected recipe: ${recipeId}!!!`);
   }
 
   onDelete(recipeId) {
