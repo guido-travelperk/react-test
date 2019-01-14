@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitForElement, wait } from "react-testing-library";
+import { render, wait } from "react-testing-library";
 import RecipesList from "./recipes-list";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -31,7 +31,7 @@ describe("<RecipesList />", () => {
   it("should render", async () => {
     mockFetchOnce(fakeRecipes);
 
-    const { container, getByText, debug } = render(
+    const { container, getByText } = render(
       <Router>
         <RecipesList />
       </Router>
@@ -49,7 +49,3 @@ describe("<RecipesList />", () => {
     //expect(container.firstChild).toHaveStyle("margin-top: 24px");
   });
 });
-
-// test('adds 1 + 2 to equal 3', () => {
-//     expect(sum(1, 2)).toBe(3);
-//   });
