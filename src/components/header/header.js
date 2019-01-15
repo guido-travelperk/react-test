@@ -46,14 +46,6 @@ class Header extends Component {
           </Nav>
         </Collapse>
       </Navbar>
-      // <ul>
-      //   <li>
-      //     <Link to="/">Recipes</Link>
-      //   </li>
-      //   <li>
-      //     <Link to="/ingredients">Ingredients</Link>
-      //   </li>
-      // </ul>
     );
   }
 }

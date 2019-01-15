@@ -27,25 +27,23 @@ describe("<RecipesList />", () => {
       ingredients: [{ name: "dough" }, { name: "cheese" }, { name: "tomato" }]
     }
   ];
+  const recipesLength = fakeRecipes.length;
 
   it("should render", async () => {
     mockFetchOnce(fakeRecipes);
 
-    const { container, getByText } = render(
+    const { getByText } = render(
       <Router>
         <RecipesList />
       </Router>
     );
 
-    //console.log(container.firstChild);
     expect(getByText("Loading...")).toBeInTheDocument();
-    //debug();
     await wait(() => expect(getByText("Add")).toBeInTheDocument());
-    // debug();
-    expect(getByText("Total Recipes: 3")).toBeInTheDocument();
-    //expect(getByText("Seen")).toBeInTheDocument();
-    //expect(getByText("Great")).toBeInTheDocument();
-    //expect(container.firstChild).toHaveStyle("border-top-left-radius: 0");
-    //expect(container.firstChild).toHaveStyle("margin-top: 24px");
+
+    expect(getByText("Total Recipes: " + recipesLength)).toBeInTheDocument();
+    expect(document.querySelectorAll("[id^=card-wrapper-]").length).toBe(
+      recipesLength
+    );
   });
 });

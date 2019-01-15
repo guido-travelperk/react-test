@@ -53,9 +53,9 @@ class RecipesList extends Component {
             <FontAwesomeIcon className="fa-fw" icon="plus-circle" />
             Add
           </Button>
-          <FlexContainer className="">
-            {recipes.map(recipe => (
-              <CardWrapper key={recipe.id}>
+          <FlexContainer>
+            {recipes.map((recipe, idx) => (
+              <CardWrapper key={recipe.id} id={"card-wrapper-" + idx}>
                 <CardHeader>
                   {recipe.name} - {recipe.id}
                 </CardHeader>
