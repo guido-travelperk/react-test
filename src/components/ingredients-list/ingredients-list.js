@@ -39,7 +39,9 @@ class IngredientList extends Component {
       return (
         <ul>
           {ingredients.map(ingredient => (
-            <li key={ingredient.id}>{ingredient.name}</li>
+            <li key={ingredient.id}>
+              {ingredient.name} - {ingredient.id}
+            </li>
           ))}
         </ul>
       );
